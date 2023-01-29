@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "wh-2-side-navigation-client-side-solution",
+    "id": "ffc5ccd0-bdc3-4ad8-9c8c-c86bd9fe5ea6",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.16.1"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "wh-2-side-navigation description"
+      },
+      "longDescription": {
+        "default": "wh-2-side-navigation description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "wh-2-side-navigation Feature",
+        "description": "The feature that activates elements of the wh-2-side-navigation solution.",
+        "id": "181ebcda-0446-426a-9343-e86287ebef20",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/wh-2-side-navigation.sppkg"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "side-navigation-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/sideNavigation/SideNavigationWebPart.js",
+          "manifest": "./src/webparts/sideNavigation/SideNavigationWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "SideNavigationWebPartStrings": "lib/webparts/sideNavigation/loc/{locale}.js",
+    "ControlStrings": "node_modules/@pnp/spfx-controls-react/lib/loc/{locale}.js"
+  }
+}
