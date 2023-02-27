@@ -1,0 +1,16 @@
+@import "~@microsoft/sp-office-ui-fabric-core/dist/sass/SPFabricCore.scss";
+
+.whHelperControl {
+  // border-top: 1px solid #edebe9;
+  // padding: 10px 0;
+  // margin: 30px 0;
+  font-size: 80%;
+  text-align: center;
+  a {
+    color: $ms-color-themeSecondary;
+    text-decoration: none;
+    &:hover {
+      color: $ms-color-themePrimary;
+    }
+  }
+}

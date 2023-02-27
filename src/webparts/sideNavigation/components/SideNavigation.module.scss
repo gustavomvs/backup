@@ -1,84 +1,297 @@
 @import "~@fluentui/react/dist/sass/References.scss";
+@import "Common.module.scss";
 
 .container {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  width: 100%;
+  width: 100%;
+  gap: 8px;
+  margin-left: 8px;
+}
+
+.containerwidth {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.containerIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 6px;
+  width: 100%;
+}
+
+.flex {
+  display: flex;
+  width: 100%;
+  height: 100%;
 }
 
 .fat {
-  background-color: #7048e8;
-  width: auto;
-  padding: 10px;
+  padding: 4px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 30px;
+  width: 96%;
+  gap: 10px;
+  background-color: fff;
   border-radius: 32px;
-  color: #fff;
-  text-align: left;
-  height: 20px;
-  max-width: 300px;
+  font-size: 0.9rem;
 }
-.fat2 {
-  background-color: #7048e8;
-  width: auto;
-  padding: 10px;
-  border-radius: 32px;
-  color: #fff;
-  text-align: left;
-  height: 20px;
-  max-width: 300px;
-  color: blue;
+
+.fat:hover {
+  .editPanel {
+    display: block;
+  }
+}
+
+.fat:hover {
+  background-color: rgba(207, 207, 207, 0.616);
 }
 
 .child1 {
-  background-color: #7048e8;
-  width: 100%;
-  padding: 10px;
+  padding: 4px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 30px;
+  width: 90%;
+  margin-left: 10px;
   border-radius: 32px;
-  text-align: left;
-  color: #fff;
-  margin-left: 30px;
-  max-width: 270px;
 }
 
-.child2 {
-  background-color: #7048e8;
-  width: 100%;
-  padding: 10px;
-  border-radius: 32px;
-  text-align: left;
-  color: #fff;
-  margin-left: 30px;
-  max-width: 270px;
-  color: blue;
+.child1:hover .editPanel2 {
+  display: block;
 }
 
-.child3 {
-  background-color: #7048e8;
-  width: 100%;
-  padding: 10px;
-  border-radius: 32px;
-  text-align: left;
-  color: #fff;
-  margin-left: 30px;
-  max-width: 270px;
-}
-
-.child4 {
-  background-color: #7048e8;
-  width: 100%;
-  padding: 10px;
-  border-radius: 32px;
-  text-align: left;
-  color: #fff;
-  margin-left: 30px;
-  max-width: 270px;
-}
-
-.hidden {
-  display: none;
+.child1:hover {
+  .let {
+    color: $ms-themePrimary;
+  }
+  background-color: rgba(207, 207, 207, 0.774);
 }
 
 .footer {
   display: flex;
-  width: 100%;
   justify-content: space-between;
+  max-width: 100%;
 }
+
+.newitem {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: $ms-themePrimary;
+  padding: 12px;
+  border-radius: 32px;
+  color: whitesmoke;
+  height: 20px;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+}
+.newitem:hover {
+  color: whitesmoke;
+}
+
+.sectionseparetor {
+  display: flex;
+  justify-content: space-around;
+}
+
+.dropIcon {
+  margin-top: 4px;
+  color: black;
+  opacity: 0.6;
+  width: 16px;
+}
+
+.icon {
+  font-size: 0.9rem;
+  color: whitesmoke;
+}
+
+.newitem:hover .icon {
+  color: whitesmoke;
+}
+
+.PencilReply {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: whitesmoke;
+  font-size: 0.9rem;
+}
+
+.PencilReply:hover {
+  color: whitesmoke;
+}
+
+.pencil {
+  font-size: 0.9rem;
+}
+
+.editPanel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: none;
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+.editPanel:hover {
+  color: $ms-themePrimary;
+}
+
+.editPanel2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin-right: 8px;
+  display: none;
+}
+
+.editPanel2:hover {
+  color: $ms-themePrimary;
+}
+
+.space {
+  display: flex;
+  align-items: center;
+}
+
+.let {
+  height: 100%;
+  font-weight: 200;
+  font-size: 0.8rem;
+  margin-left: 8px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.fat:hover .let {
+  color: $ms-themePrimary;
+}
+
+.letBold {
+  height: 100%;
+  font-weight: 200;
+  font-size: 0.8rem;
+  margin-left: 8px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+}
+
+.letBold:hover {
+  color: $ms-themePrimary;
+}
+
+.flexButton {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.closebutton {
+  cursor: pointer;
+  border: none;
+  background-color: #fff;
+  color: none;
+}
+
+.divModal {
+  width: 300px;
+  max-width: 480px;
+  padding: 24px;
+  gap: 36px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.divButtons {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+}
+
+.buttonYes {
+  margin-right: 8px;
+  font-size: 0.9rem;
+  background-color: $ms-themePrimary;
+  color: white;
+}
+
+.buttonYes:hover {
+  color: white;
+  background-color: $ms-themePrimary;
+}
+
+.buttonNo {
+  font-size: 0.9rem;
+  background-color: $ms-themePrimary;
+  color: white;
+}
+
+.buttonNo:hover {
+  background-color: $ms-themePrimary;
+  color: white;
+}
+
+.error {
+  color: red;
+  filter: brightness(50%);
+}
+
+.error2 {
+  color: red;
+  filter: brightness(50%);
+  text-align: center;
+}
+
+.headerPanel {
+  font-size: 1.1rem;
+}
+
+.font {
+  font-size: 0.9rem;
+  margin-right: 5px;
+  width: 100px;
+}
+
+.realy {
+  font-size: 0.9rem;
+}
+
+.gapFooter {
+  gap: 10px;
+}
+
+.themeColor {
+  color: $ms-themePrimary;
+  cursor: pointer;
+}
+
+.contextFlex {
+  margin: 0 auto;
+  display: flex;
+  width: 95%;
+  justify-content: end;
+  padding: 10px 0px;
+}
+
+// @media (max-width: 600px) {
+//   .container {
+//     background-color: red;
+//   }
+// }

@@ -1,18 +1,24 @@
-declare interface ISideNavigationWebPartStrings {
-  PropertyPaneDescription: string;
-  BasicGroupName: string;
-  DescriptionFieldLabel: string;
-  AppLocalEnvironmentSharePoint: string;
-  AppLocalEnvironmentTeams: string;
-  AppLocalEnvironmentOffice: string;
-  AppLocalEnvironmentOutlook: string;
-  AppSharePointEnvironment: string;
-  AppTeamsTabEnvironment: string;
-  AppOfficeEnvironment: string;
-  AppOutlookEnvironment: string;
+declare interface ISimpleBannerWebPartStrings {
+  newItem: string;
+  panel: string;
+  title: string;
+  insertTitleHere: string;
+  newAbe: string;
+  father: string;
+  no: string;
+  yes: string;
+  save: string;
+  cancel: string;
+  delete: string;
+  close: string;
+  realy: string;
+  insertTheFather: string;
+  fillInTheTitle: string;
+  selectAContext: string;
+  help: string;
 }
 
-declare module 'SideNavigationWebPartStrings' {
-  const strings: ISideNavigationWebPartStrings;
+declare module "SideNavigationWebPartStrings" {
+  const strings: ISimpleBannerWebPartStrings;
   export = strings;
 }

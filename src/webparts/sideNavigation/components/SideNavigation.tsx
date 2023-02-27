@@ -33,7 +33,14 @@ const SideNavigation: React.FunctionComponent<ISideNavigationProps> = (
   return (
     <div>
       <div>
-        <TreeView sp={sp} dataBase={dataBase} setDataBase={setDataBase} />
+        <TreeView
+          dm={props.displayMode}
+          sp={sp}
+          dataBase={dataBase}
+          setDataBase={setDataBase}
+          dropID={props.dropID}
+          updateID={props.updatePropety}
+        />
       </div>
     </div>
   );

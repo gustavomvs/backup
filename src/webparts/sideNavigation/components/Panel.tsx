@@ -1,7 +1,11 @@
+import * as React from "react";
+import { useState, useEffect } from "react";
 import {
+  DefaultButton,
   Dropdown,
   IDropdownOption,
   IDropdownStyles,
+  IIconProps,
   ILabelStyleProps,
   ILabelStyles,
   ITextFieldStyles,
@@ -9,24 +13,22 @@ import {
   PrimaryButton,
   TextField,
   Toggle,
-} from "office-ui-fabric-react";
-import { useBoolean } from "@fluentui/react-hooks";
-import * as React from "react";
-import { useState, useEffect } from "react";
-import { DefaultButton } from "@fluentui/react";
+} from "@fluentui/react";
 import "@pnp/sp/webs";
 import "@pnp/sp/lists";
 import "@pnp/sp/items";
 import "@pnp/sp/attachments";
 import { CommandButton } from "@fluentui/react/lib/Button";
 import styles from "./SideNavigation.module.scss";
-
-const dropdownStyles: Partial<IDropdownStyles> = {
-  dropdown: { width: "100%", marginBottom: "5px" },
-};
+import * as strings from "SideNavigationWebPartStrings";
+import { useBoolean } from "@fluentui/react-hooks";
 
 const textFieldStyles: Partial<ITextFieldStyles> = {
-  fieldGroup: { marginBottom: "5px", fontSize: "1rem" },
+  fieldGroup: {
+    marginBottom: "5px",
+    fontSize: "1rem",
+  },
+
   subComponentStyles: { label: getLabelStyles },
 };
 
@@ -42,43 +44,42 @@ function getLabelStyles(props: ILabelStyleProps): ILabelStyles {
   };
 }
 
+const dropdownStyles: Partial<IDropdownStyles> = {
+  dropdown: { fontSize: "1rem" },
+  label: { fontSize: "0.9rem" },
+};
+
 interface Side {
   Title: string;
   whOpenInNewTab: boolean;
   whLink: string;
   whParentItemId: number;
+  whItemContextId: any;
 }
 
-const optionsPrimary: IDropdownOption[] = [];
+const addIcon: IIconProps = { iconName: "Add", className: styles.icon };
 
-function SidePanel({ db, sp, setDataBase }: any) {
+function SidePanel({ contextID, op, sp, setDataBase, dm, dropID }: any) {
   const SideDefault: Side = {
     Title: "",
     whOpenInNewTab: true,
     whLink: null,
     whParentItemId: null,
+    whItemContextId: contextID,
   };
 
   const [isOpen, { setTrue: openPanel, setFalse: dismissPanel }] =
     useBoolean(false);
+
   const [side, setSide] = useState<Side>(SideDefault);
-
-  const [cr, setCr] = useState(null);
-
-  const meuInit = async (): Promise<void> => {
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    sp.web.lists
-      .getByTitle("Side Navigation")
-      .items()
-      .then((res: any) => {
-        setDataBase(res);
-      });
-  };
+  const [error, setError] = useState(false);
+  const [b1, setb1] = useState(false);
 
   const changeTitle = (
     event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>,
     newValue?: any
   ): void => {
+    setError(false);
     setSide((old) => ({
       ...old,
       Title: newValue,
@@ -95,13 +96,6 @@ function SidePanel({ db, sp, setDataBase }: any) {
     }));
   }
 
-  function changecr(
-    _ev: React.MouseEvent<HTMLElement>,
-    checked?: boolean
-  ): void {
-    setCr((old: any) => !cr);
-  }
-
   const changeUrl = (
     event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>,
     newValue?: any
@@ -116,64 +110,119 @@ function SidePanel({ db, sp, setDataBase }: any) {
     event: React.FormEvent<HTMLDivElement>,
     item: IDropdownOption
   ): void => {
-    setSide((old) => ({
+    setSide((old: any) => ({
       ...old,
-      whParentItemId: Number(item.key),
+      whParentItemId: item.key,
     }));
   };
 
-  const Save = async (): Promise<void> => {
-    await sp.web.lists.getByTitle("Side Navigation").items.add(side);
-    setSide(() => ({
-      Title: "",
-      whOpenInNewTab: true,
-      whLink: null,
-      whParentItemId: null,
-    }));
-    dismissPanel();
-    changecr;
-    return;
+  const Save = async (): Promise<any> => {
+    setb1(true);
+    if (!side.Title) {
+      setError(true);
+    } else {
+      await sp.web.lists
+        .getByTitle("Side Navigation")
+        .items.add(side)
+        .then((res: any) => {
+          op.push({ key: res.data.ID, text: res.data.Title });
+          setDataBase((old: any) => {
+            return [...old, res.data];
+          });
+          dismissPanel();
+          setSide((old: any) => ({
+            ...old,
+            Title: "",
+            whOpenInNewTab: true,
+            whLink: null,
+            whParentItemId: null,
+          }));
+        });
+    }
   };
 
-  const myPrimary = async () => {
-    const langListGlobal: any[] = await sp.web.lists
+  async function meuInit(): Promise<void> {
+    op.splice(0, op.length);
+    await sp.web.lists
       .getByTitle("Side Navigation")
-      .items();
-    langListGlobal.map((e) => {
-      optionsPrimary.push({
-        key: e.ID,
-        text: e.Title,
+      .items()
+      .then((res: any) => {
+        if (op) {
+          if (op.length < res.length) {
+            res.map((e: any) => {
+              if (dropID === e.whItemContextId) {
+                if (!op.find((el: any) => el.text === e.Title)) {
+                  op.push({ key: e.ID, text: e.Title });
+                }
+              }
+            });
+          }
+        }
       });
-    });
-  };
-
-  useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+  }
+  useEffect((): void => {
     meuInit();
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    myPrimary();
-  }, []);
+  }, [dropID]);
+
+  useEffect((): void => {
+    setSide((old: any) => ({
+      ...old,
+      whItemContextId: contextID,
+    }));
+  }, [contextID]);
+
+  useEffect((): void => {
+    setb1(false);
+  }, [side]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onRenderFooterContent = (): any => (
     <div className={styles.footer}>
-      <DefaultButton onClick={Save}>Salvar</DefaultButton>
-      <PrimaryButton onClick={dismissPanel}>Cancelar</PrimaryButton>
+      <DefaultButton className={styles.font} disabled={b1} onClick={Save}>
+        {strings.save}
+      </DefaultButton>
+      <PrimaryButton
+        className={styles.font}
+        onClick={() => {
+          dismissPanel();
+          setSide((old: any) => ({
+            ...old,
+            Title: "",
+            whOpenInNewTab: true,
+            whLink: null,
+            whParentItemId: null,
+          }));
+        }}
+      >
+        {strings.cancel}
+      </PrimaryButton>
     </div>
   );
   return (
     <div>
-      <CommandButton
-        onClick={openPanel}
-        text={"+ Novo Item"}
-        // className={}
-        // styles={hostStyles}
-      />
+      {dm === 2 && (
+        <CommandButton
+          onClick={openPanel}
+          iconProps={addIcon}
+          text={strings.newItem}
+          className={styles.newitem}
+        />
+      )}
+
       <Panel
-        headerText={"Painel"}
-        headerClassName={"1"}
+        headerText={strings.panel}
+        headerClassName={styles.headerPanel}
         isOpen={isOpen}
-        onDismiss={dismissPanel}
+        onDismiss={() => {
+          dismissPanel();
+          setSide({
+            Title: "",
+            whOpenInNewTab: true,
+            whLink: null,
+            whParentItemId: null,
+            whItemContextId: contextID,
+          });
+        }}
         closeButtonAriaLabel={""}
         isFooterAtBottom={true}
         onRenderFooterContent={onRenderFooterContent}
@@ -182,11 +231,12 @@ function SidePanel({ db, sp, setDataBase }: any) {
           minLength={1}
           type="text"
           onChange={changeTitle}
-          label={"Título"}
-          placeholder={"Insira o título aqui"}
+          label={strings.title}
+          placeholder={strings.insertTitleHere}
           value={side.Title}
           styles={textFieldStyles}
         />
+        {error && <div className={styles.error}>{strings.fillInTheTitle}</div>}
         <TextField
           type="text"
           onChange={changeUrl}
@@ -198,20 +248,19 @@ function SidePanel({ db, sp, setDataBase }: any) {
 
         <Toggle
           defaultChecked={true}
-          label={"Nova Aba"}
-          onText="Sim"
-          offText="Não"
+          label={strings.newAbe}
+          onText={strings.yes}
+          offText={strings.no}
           onChange={changenewAbe}
           styles={toggleStyles}
         />
 
         <Dropdown
-          label="Pasta"
-          selectedKey={undefined}
-          onChange={changePrimary}
-          placeholder={"Insira a Pasta"}
-          options={optionsPrimary}
+          label={strings.father}
           styles={dropdownStyles}
+          options={op.filter((e: any) => e.text !== side.Title)}
+          onChange={changePrimary}
+          placeholder={strings.insertTheFather}
         />
       </Panel>
     </div>
